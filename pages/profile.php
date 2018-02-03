@@ -1,7 +1,11 @@
+<?php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <title>Profile</title>
     <!-- Add bootstrap,stylesheet,viewport -->
     <meta charset="UTF-8">
@@ -19,56 +23,85 @@
 </header>
 
 <main>
-    <div class="container p-3">
-        <div class="border p-4"><!--border padding div start-->
+    <div class="container p-2">
+        <div class="border p-3"><!--border padding div start-->
             <h3 class="font-weight-bold">Profile</h3>
             <hr>
-            <form action="#" method="post">
+            <form action="" method="post">
                 <div class="row"><!--row div start-->
-                    <div class="col-sm-7"><!--col div start-->
+                    <div class="col-sm-7 p-3"><!--col div start-->
 
                         <div class="form-group">
                             <label for="email" class="font-weight-bold">Email</label>
-                            <input type="text" class="form-control" id="email">
+                            <input type="text" class="form-control" id="email" name="email" value="{{ @email }}">
+                            <check if="{{ isset(@errors['email']) }}">
+                                <h6>Error in Email!</h6>
+                            </check>
                         </div>
 
                         <div class="form-group">
-                            <label for="state" class="font-weight-bold">State</label>
-                            <input type="text" class="form-control" id="state">
+                            <label class="font-weight-bold">States</label>
+
+                            <select class="form-control" name="mystates" id="mystates">
+                                <option>--Select--</option>
+                                <repeat group="{{ @states }}" value="{{ @stateOption }}">
+                                    <option
+                                    <check if="{{ @stateOption  == @state }}">
+                                        selected
+                                    </check>
+                                    >
+                                    {{ @stateOption }}
+                                    </option>
+                                </repeat>
+                            </select>
+                            <check if="{{ isset(@errors['state']) }}">
+                                <h6>{{ @errors['state'] }}</h6>
+                            </check>
                         </div>
-                        <div class="font-weight-bold">
-                            <label >Seeking</label>
+
+                        <div class="form-check">
+                            <label class="font-weight-bold ">Seeking</label>
+                            <input type="radio" name="sgender" value="Male"
+                            <check if="{{ @sgender == 'Male'}}">checked</check>
+                            >Male
+
+                            <input type="radio" name="sgender" value="Female"
+                            <check if="{{ @sgender == 'Female'}}">checked</check>
+                            >Female
+
+                            <check if="{{ isset(@errors['sgender']) }}">
+                                <h6>Please Select Gender</h6>
+                            </check>
                         </div>
-                        <label for ="male">
-                            <input type="radio" class="radio-inline" id="male"> Male
-                        </label>
-                        <label for="female">
-                            <input type="radio" class="radio-inline" id="female"> Female
-                        </label>
                     </div>
-
-                    <div class="col-sm-5"><!--col div start-->
+                    <div class="col-sm-5 p-3"><!--col div start-->
                         <div class="form-group">
-                            <label for="biography" class="font-weight-bol">Biography:</label>
-                            <textarea class="form-control" rows="6" id="biography"></textarea>
+                            <label for="biography" class="font-weight-bold">Biography:</label>
+                            <textarea class="form-control" rows="6" id="biography"
+                                      name="biography">{{@biography}}</textarea>
+                            <check if="{{ isset(@errors['biography']) }}">
+                                <h6>Error in Biography!</h6>
+                            </check>
+
                         </div>
                     </div>
                 </div>
 
 
-                    <div class="text-right">
-                        <button type="submit" class="btn btn-primary btn ">Next&gt</button>
-                    </div>
+                <div class="text-right">
+                    <input type="submit" name="submit" class="btn btn-primary btn p-2" value="Next &gt;">
+                </div>
             </form>
         </div>
     </div>
-            <!-- footer-->
-            <footer>
-                <div class="container-fluid "><!--container fluid div start -->
-                    <div class="bg-danger text-light rounded m-2"><!--text,bg-rounded div start-->
-                        <h3 class="text-center font-italic">Live Love Life</h3>
-                    </div><!--text,bg-rounded div end-->
-                </div><!--container fluid div end -->
-            </footer>
+</main>
+<!-- footer-->
+<footer>
+    <div class="container-fluid"><!--container fluid div start -->
+        <div class="bg-danger text-light rounded"><!--text,bg-rounded div start-->
+            <h3 class="text-center font-italic">Live Love Life</h3>
+        </div><!--text,bg-rounded div end-->
+    </div><!--container fluid div end -->
+</footer>
 </body>
 </html>
