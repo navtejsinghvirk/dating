@@ -46,7 +46,7 @@
                                 <td>Seeking: {{ @sgender }}</td>
                             </tr>
                             <tr>
-                                <td>Interests: {{ @myindoor }}{{@myoutdoor}}</td>
+                                <td>Interests: {{ @indoor }}{{ @outdoor }}</td>
                             </tr>
 
                         </table>

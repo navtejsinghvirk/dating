@@ -44,13 +44,13 @@ $f3->route('GET|POST /personalinformation', function ($f3) {
         $f3->set('success', $success);
 
         $_SESSION['firstName'] = $_POST['firstName'];
-      //  $_SESSION['gender'] = $_POST['gender'];
+        $_SESSION['gender'] = $_POST['gender'];
         $_SESSION['lastName'] = $_POST['lastName'];
         $_SESSION['age'] = $_POST['age'];
         $_SESSION['phonenumber'] = $_POST['phonenumber'];
 
     }
-    if($success){
+    if ($success) {
         header("location: ./profile");
     }
 
@@ -98,8 +98,7 @@ $f3->route('GET|POST /profile', function ($f3) {
     }
 
 
-
-    if($success){
+    if ($success) {
         header("location: ./interest");
     }
 
@@ -117,19 +116,22 @@ $f3->set('outdoors', array('hiking', 'biking', 'swimming',
 $f3->route('GET|POST /interest', function ($f3) {
 
     if (isset($_POST['submit'])) {
-
-        $indoor = ($_POST['myindoor']);
-        $outdoor = ($_POST['myoutdoor']);
-
+        $indoor = ($_POST['indoors']);
+        $outdoor = ($_POST['outdoors']);
         include('model/validactivity.php');
-
         $f3->set('indoor', $indoor);
         $f3->set('outdoor', $outdoor);
         $f3->set('errors', $errors);
         $f3->set('success', $success);
 
-        $_SESSION['indoor'] = $_POST['myindoor'];
-        $_SESSION['outdoor'] = $_POST['myoutdoor'];
+        $_SESSION['indoor'] = $_POST['indoors'];
+        var_dump($_SESSION['indoor']);
+        $_SESSION['outdoor'] = $_POST['outdoors'];
+        var_dump($_SESSION['outdoor']);
+    }
+
+    if ($success) {
+        header("location: ./summary");
     }
 
     $template = new Template();
@@ -138,7 +140,6 @@ $f3->route('GET|POST /interest', function ($f3) {
 
 //route summary page
 $f3->route('GET|POST /summary', function ($f3) {
-
 
 
     $f3->set('firstName', $_SESSION['firstName']);

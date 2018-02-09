@@ -6,25 +6,25 @@
  * Time: 8:59 PM
  */
 
-function validoutdoor($myoutdoor)
+function validoutdoor($outdoor)
 {
     global $f3;
-    return in_array($myoutdoor, $f3->get('outdoors'));
+    return in_array($outdoor, $f3->get('outdoors'));
 }
 
-function validindoor($myindoor)
+function validindoor($indoor)
 {
     global $f3;
-    return in_array($myindoor, $f3->get('indoors'));
+    return in_array($indoor, $f3->get('indoors'));
 }
 
 $errors = [];
 
-if (!validOutdoor($myoutdoor)) {
-    $errors[$myoutdoor] = 'Please select outdoor';
+if (!validoutdoor($outdoors)) {
+    $errors[$outdoors] = 'Please select outdoor';
 
 }
-if (!validindoor($myindoor)) {
-    $errors[$myindoor] = "please select indoor";
+if (!validindoor($indoors)) {
+    $errors[$indoors] = "please select indoor";
 }
 $success = sizeof($errors) == 0;
