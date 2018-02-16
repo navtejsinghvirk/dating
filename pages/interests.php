@@ -25,29 +25,30 @@
             <form action="" method="post">
                 <div class="row"><!--row div start-->
                     <div class="col-sm-12"><!--col div start-->
-                        <div><label class="font-weight-bold">In-door interests</label></div>
-                        <div class="form-check form-check-inline col-sm-10 p-3">
+                        <div><label class="font-weight-bold">In-door interests<check if="{{@errors['indoor']}}">
+                                    <span class="text-danger">  Please select indoor activities </span>
+                            </check></label></div>
+                        <div class="form-check form-check-inline col-sm-11 p-3">
                             <repeat group="{{ @indoors }}" value="{{ @indooroption }}">
-                                <input type="checkbox" class="form-check-input" name="indoors[]"value="{{ @indooroption }}"
+                                <input type="checkbox" class="form-check-inputm-3" name="indoors[]"value="{{ @indooroption }}"
                                 <repeat group="{{ @indoor }}" value="{{ @option }}">
                                 <check if="{{ @indooroption == @option  }}">checked</check>
-                                </repeat>>{{@indooroption}}<br>
+                                </repeat>>{{@indooroption}}
+                            </>
                             </repeat>
-                            <check if="{{@errors['indoors']}}">
-                                <h6>Please select indoor activities</h6>
-                            </check>
+
                         </div>
-                        <div><label class="font-weight-bold">Out-door interests</label></div>
-                        <div class="form-check form-check-inline col-sm-10 p-3">
+                        <div><label class="font-weight-bold">Out-door interests <check if="{{@errors['outdoor']}}">
+                                <span class="text-danger">Please select indoor activities</span>
+                            </check></label></div>
+                        <div class="form-check form-check-inline col-sm-11 p-3">
                             <repeat group="{{ @outdoors }}" value="{{ @outdooroptionout }}">
-                                <input type="checkbox" class="form-check-input" name="outdoors[]"value="{{ @outdooroptionout }}"
+                                <input type="checkbox" class="form-check-inputm-3" name="outdoors[]"value="{{ @outdooroptionout }}"
                                 <repeat group="{{ @outdoor }}" value="{{ @optionout }}">
                                     <check if="{{ @outdooroptionout == @optionout  }}">checked</check>
-                                </repeat>>{{@outdooroptionout}}<br>
+                                </repeat>>{{@outdooroptionout}}
                             </repeat>
-                            <check if="{{@errors['outdoors']}}">
-                                <h6>Please select indoor activities</h6>
-                            </check>
+
                         </div>
                     </div>
                 </div>

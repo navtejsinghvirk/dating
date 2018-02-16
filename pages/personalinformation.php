@@ -60,11 +60,11 @@ error_reporting(E_ALL);
                             <label class="font-weight-bold ">Gender</label>
                             <input type="radio" name="gender" value="Male"
                             <check if="{{ @gender == 'Male'}}">checked</check>
-                            >Male
+                            > Male
 
                             <input type="radio" name="gender" value="Female"
                             <check if="{{ @gender == 'Female'}}">checked</check>
-                            >Female
+                            > Female
 
                             <check if="{{ isset(@errors['gender']) }}">
                                 <h6>Please Select Gender</h6>
@@ -79,6 +79,12 @@ error_reporting(E_ALL);
                                 <h6>Error in phone Format(XXXXXXXXXX)</h6>
                             </check>
                         </div>
+
+                        <div class="form-group">
+                            <label class="font-weight-bold">Premium Membership</label><br>
+                            <input type="checkbox" name="premium"> Sign me up a Premium Account
+                        </div>
+
                     </div>
                     <div class="col-sm-4 p-4">
                         <div>

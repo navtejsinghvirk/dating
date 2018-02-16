@@ -20,11 +20,13 @@ function validindoor($indoor)
 
 $errors = [];
 
-if (!validoutdoor($outdoors)) {
-    $errors[$outdoors] = 'Please select outdoor';
+if (!isset($indoor)) {
 
+    $errors[indoor]=" Please choice Interests";
 }
-if (!validindoor($indoors)) {
-    $errors[$indoors] = "please select indoor";
+
+if (!isset($outdoor)) {
+
+    $errors[outdoor] = " Please choice Interests";
 }
 $success = sizeof($errors) == 0;

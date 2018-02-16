@@ -25,28 +25,29 @@
                     <div class="col-sm-6"><!--col div start-->
                         <table class="table table-bordered">
                             <tr>
-                                <td>Name: {{ @firstName }} {{@lastName}}</td>
+                                <td>Name: {{ @$_SESSION['member']->getFname() }} {{@lastName}}</td>
                             </tr>
                             <tr>
-                                <td>Gender: {{ @gender }}</td>
+                                <td>Gender: {{ @$_SESSION['member']->getGender() }}</td>
                             </tr>
                             <tr>
-                                <td>Age: {{ @age }}</td>
+                                <td>Age: {{ @$_SESSION['member']->getAge() }}</td>
                             </tr>
                             <tr>
-                                <td>Phone: {{ @phonenumber }}</td>
+                                <td>Phone: {{ @$_SESSION['member']->getPhone() }}</td>
                             </tr>
                             <tr>
-                                <td>Email: {{ @email }}</td>
+                                <td>Email: {{ @$_SESSION['member']->getEmail() }}</td>
                             </tr>
                             <tr>
-                                <td>State: {{ @state }}</td>
+                                <td>State: {{ @$_SESSION['member']->getState() }}</td>
                             </tr>
                             <tr>
-                                <td>Seeking: {{ @sgender }}</td>
+                                <td>Seeking: {{ @$_SESSION['member']->getSeeking() }}</td>
                             </tr>
                             <tr>
-                                <td>Interests: {{ @indoor }}{{ @outdoor }}</td>
+                                <td>Interests: <repeat group = "@$_SESSION['premiummember']->getInDoorInterests()" value="@indoor">{{@indoor}}</repeat>
+                                    <repeat group = "@$_SESSION['premiummember']->getOutDoorInterests()" value="@outdoor">{{@outdoor}}</repeat></td>
                             </tr>
 
                         </table>
@@ -58,7 +59,7 @@
                         </figure>
                         <div>
                             <h3>Biography</h3>
-                            <p>{{@biography}}</p>
+                            <p>{{@$_SESSION['member']->getBio()}}</p>
                         </div>
 
 

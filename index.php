@@ -1,6 +1,4 @@
 <?php
-//session start
-session_start();
 
 //error reporting
 error_reporting(E_ALL);
@@ -8,6 +6,10 @@ ini_set("display_errors", 1);
 
 //require the autolaod file
 require_once('vendor/autoload.php');
+
+//session start
+session_start();
+
 
 //create an instance of the base class
 $f3 = Base::instance();
@@ -19,8 +21,7 @@ $f3->set('DEBUG', 3);
 $f3->route('GET /', function () {
     $template = new Template();
     echo $template->render('pages/home.html');
-}
-);
+});
 
 //define route to personal information
 $f3->route('GET|POST /personalinformation', function ($f3) {
@@ -32,27 +33,38 @@ $f3->route('GET|POST /personalinformation', function ($f3) {
         $lastName = ($_POST['lastName']);
         $age = ($_POST['age']);
         $phonenumber = ($_POST['phonenumber']);
+        $premium = $_POST['premium'];
+
 
         include('model/validatepersonal.php');
+
 
         $f3->set('gender', $gender);
         $f3->set('firstName', $firstName);
         $f3->set('lastName', $lastName);
         $f3->set('age', $age);
         $f3->set('phonenumber', $phonenumber);
+        $f3->set('premium', $premium);
         $f3->set('errors', $errors);
         $f3->set('success', $success);
+        $_SESSION['premium'] = $premium;
 
-        $_SESSION['firstName'] = $_POST['firstName'];
-        $_SESSION['gender'] = $_POST['gender'];
-        $_SESSION['lastName'] = $_POST['lastName'];
-        $_SESSION['age'] = $_POST['age'];
-        $_SESSION['phonenumber'] = $_POST['phonenumber'];
+        if (!isset($premium)) {
+            $member = new Member($firstName, $lastName, $age,
+                $gender, $phonenumber);
+            $_SESSION['member'] = $member;
+        } else {
+            $premiummember = new PremiumMember($firstName, $lastName
+                , $age, $gender, $phonenumber);
+            $_SESSION['premiummember'] = $premiummember;
+        }
+
 
     }
     if ($success) {
         header("location: ./profile");
     }
+
 
     $template = new Template();
     echo $template->render('pages/personalinformation.php');
@@ -90,13 +102,18 @@ $f3->route('GET|POST /profile', function ($f3) {
         $f3->set('errors', $errors);
         $f3->set('success', $success);
 
-        $_SESSION['state'] = $_POST['mystates'];
-        $_SESSION['sgender'] = $_POST['sgender'];
-        $_SESSION['email'] = $_POST['email'];
-        $_SESSION['biography'] = $_POST['biography'];
+        $member = $_SESSION['member'];
+
+        if (isset($_SESSION['member'])) {
+            $member->setEmail($email);
+            $member->setState($state);
+            $member->setSeeking($sgender);
+            $member->setBio($biography);
+        }
+
+        $_SESSION['member'] = $member;
 
     }
-
 
     if ($success) {
         header("location: ./interest");
@@ -107,29 +124,37 @@ $f3->route('GET|POST /profile', function ($f3) {
 });
 
 //indoor ,outdoor array
-$f3->set('indoors', array('tv', 'movies', 'cooking', 'board games',
-    'puzzles', 'reading', 'playing cards', 'video games'));
-$f3->set('outdoors', array('hiking', 'biking', 'swimming',
-    'collecting', 'walking', 'climbing'));
+$f3->set('indoors', array(' tv', ' movies', ' cooking', ' board games',
+    ' puzzles', ' reading', ' playing cards', ' video games'));
+$f3->set('outdoors', array(' hiking', ' biking', ' swimming',
+    ' collecting', ' walking', ' climbing'));
 
 //route to activity
 $f3->route('GET|POST /interest', function ($f3) {
 
     if (isset($_POST['submit'])) {
+
         $indoor = ($_POST['indoors']);
         $outdoor = ($_POST['outdoors']);
+
         include('model/validactivity.php');
+
         $f3->set('indoor', $indoor);
         $f3->set('outdoor', $outdoor);
         $f3->set('errors', $errors);
         $f3->set('success', $success);
 
-        $_SESSION['indoor'] = $_POST['indoors'];
-        var_dump($_SESSION['indoor']);
-        $_SESSION['outdoor'] = $_POST['outdoors'];
-        var_dump($_SESSION['outdoor']);
-    }
+        $member = $_SESSION['member'];
+        $premiummember = $_SESSION['premiummember'];
+        if (isset($_SESSION['premiummember'])) {
 
+            $premiummember->setInDoorInterests($indoor);
+            $premiummember->setOutDoorInterests($outdoor);
+        }
+
+        $_SESSION['premiummember'] = $premiummember;
+
+    }
     if ($success) {
         header("location: ./summary");
     }
@@ -142,17 +167,9 @@ $f3->route('GET|POST /interest', function ($f3) {
 $f3->route('GET|POST /summary', function ($f3) {
 
 
-    $f3->set('firstName', $_SESSION['firstName']);
-    $f3->set('lastName', $_SESSION['lastName']);
-    $f3->set('gender', $_SESSION['gender']);
-    $f3->set('age', $_SESSION['age']);
-    $f3->set('phonenumber', $_SESSION['phonenumber']);
-    $f3->set('state', $_SESSION['state']);
-    $f3->set('email', $_SESSION['email']);
-    $f3->set('sgender', $_SESSION['sgender']);
-    $f3->set('indoor', $_SESSION['indoor']);
-    $f3->set('outdoor', $_SESSION['outdoor']);
-    $f3->set('biography', $_SESSION['biography']);
+    $_SESSION['member'];
+    $_SESSION['premiummember'];
+
 
     $template = new Template();
     echo $template->render('pages/summary.php');
