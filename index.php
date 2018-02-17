@@ -10,7 +10,6 @@ require_once('vendor/autoload.php');
 //session start
 session_start();
 
-
 //create an instance of the base class
 $f3 = Base::instance();
 
@@ -35,9 +34,7 @@ $f3->route('GET|POST /personalinformation', function ($f3) {
         $phonenumber = ($_POST['phonenumber']);
         $premium = $_POST['premium'];
 
-
         include('model/validatepersonal.php');
-
 
         $f3->set('gender', $gender);
         $f3->set('firstName', $firstName);
@@ -47,25 +44,19 @@ $f3->route('GET|POST /personalinformation', function ($f3) {
         $f3->set('premium', $premium);
         $f3->set('errors', $errors);
         $f3->set('success', $success);
-        $_SESSION['premium'] = $premium;
 
-        if (!isset($premium)) {
-            $member = new Member($firstName, $lastName, $age,
-                $gender, $phonenumber);
+        if (!isset($_POST['premium']) == $premium) {
+            $member = new Member($firstName, $lastName, $age, $gender, $phonenumber);
             $_SESSION['member'] = $member;
         } else {
-            $premiummember = new PremiumMember($firstName, $lastName
-                , $age, $gender, $phonenumber);
+            $premiummember = new PremiumMember($firstName, $lastName, $age, $gender, $phonenumber);
+            $_SESSION['premium'] = $premium;
             $_SESSION['premiummember'] = $premiummember;
         }
-
-
     }
     if ($success) {
         header("location: ./profile");
     }
-
-
     $template = new Template();
     echo $template->render('pages/personalinformation.php');
 });
@@ -103,22 +94,29 @@ $f3->route('GET|POST /profile', function ($f3) {
         $f3->set('success', $success);
 
         $member = $_SESSION['member'];
+        $premiummember = $_SESSION['premiummember'];
 
         if (isset($_SESSION['member'])) {
             $member->setEmail($email);
             $member->setState($state);
             $member->setSeeking($sgender);
             $member->setBio($biography);
+        } else {
+            $premiummember->setEmail($email);
+            $premiummember->setState($state);
+            $premiummember->setSeeking($sgender);
+            $premiummember->setBio($biography);
         }
-
         $_SESSION['member'] = $member;
-
+        $_SESSION['premiummember'] = $premiummember;
     }
-
     if ($success) {
-        header("location: ./interest");
+        if (!empty($_SESSION['premium'])) {
+            $f3->reroute("./interest");
+        } else {
+            $f3->reroute("./summary");
+        }
     }
-
     $template = new Template();
     echo $template->render('pages/profile.php');
 });
@@ -144,8 +142,8 @@ $f3->route('GET|POST /interest', function ($f3) {
         $f3->set('errors', $errors);
         $f3->set('success', $success);
 
-        $member = $_SESSION['member'];
         $premiummember = $_SESSION['premiummember'];
+        $member = $_SESSION['member'];
         if (isset($_SESSION['premiummember'])) {
 
             $premiummember->setInDoorInterests($indoor);
@@ -153,7 +151,7 @@ $f3->route('GET|POST /interest', function ($f3) {
         }
 
         $_SESSION['premiummember'] = $premiummember;
-
+        $_SESSION['member'] = $member;
     }
     if ($success) {
         header("location: ./summary");
@@ -167,9 +165,8 @@ $f3->route('GET|POST /interest', function ($f3) {
 $f3->route('GET|POST /summary', function ($f3) {
 
 
-    $_SESSION['member'];
-    $_SESSION['premiummember'];
-
+    $member = $_SESSION['member'];
+    $premiummember = $_SESSION['premiummember'];
 
     $template = new Template();
     echo $template->render('pages/summary.php');

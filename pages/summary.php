@@ -25,29 +25,71 @@
                     <div class="col-sm-6"><!--col div start-->
                         <table class="table table-bordered">
                             <tr>
-                                <td>Name: {{ @$_SESSION['member']->getFname() }} {{@lastName}}</td>
+                                <td>Name:
+                                    <check if=" {{ @$_SESSION['member'] }}">
+                                        <true>{{ @$_SESSION['member']->getFname() }}</true>
+                                        <false>{{ @$_SESSION['premiummember']->getFname()}}</false>
+                                    </check>
+
+                                    <check if=" {{ @$_SESSION['member'] }}">
+                                        <true>{{ @$_SESSION['member']->getLname() }}</true>
+                                        <false>{{ @$_SESSION['premiummember']->getLname()}}</false>
+                                    </check>
+                                </td>
                             </tr>
                             <tr>
-                                <td>Gender: {{ @$_SESSION['member']->getGender() }}</td>
+                                <td>Gender:
+                                    <check if=" {{ @$_SESSION['member'] }}">
+                                        <true>{{ @$_SESSION['member']->getGender() }}</true>
+                                        <false>{{ @$_SESSION['premiummember']->getGender()}}</false>
+                                    </check>
+                                </td>
                             </tr>
                             <tr>
-                                <td>Age: {{ @$_SESSION['member']->getAge() }}</td>
+                                <td>Age:
+                                    <check if=" {{ @$_SESSION['member'] }}">
+                                        <true>{{ @$_SESSION['member']->getAge() }}</true>
+                                        <false>{{ @$_SESSION['premiummember']->getAge()}}</false>
+                                    </check>
+                                </td>
                             </tr>
                             <tr>
-                                <td>Phone: {{ @$_SESSION['member']->getPhone() }}</td>
+                                <td>Phone: <check if=" {{ @$_SESSION['member'] }}">
+                                        <true>{{ @$_SESSION['member']->getPhone() }}</true>
+                                        <false>{{ @$_SESSION['premiummember']->getPhone()}}</false>
+                                    </check>
+                                </td>
                             </tr>
                             <tr>
-                                <td>Email: {{ @$_SESSION['member']->getEmail() }}</td>
+                                <td>Email:<check if=" {{ @$_SESSION['member'] }}">
+                                        <true>{{ @$_SESSION['member']->getEmail() }}</true>
+                                        <false>{{ @$_SESSION['premiummember']->getEmail()}}</false>
+                                    </check>
+                                </td>
                             </tr>
                             <tr>
-                                <td>State: {{ @$_SESSION['member']->getState() }}</td>
+                                <td>State:<check if=" {{ @$_SESSION['member'] }}">
+                                        <true>{{ @$_SESSION['member']->getState() }}</true>
+                                        <false>{{ @$_SESSION['premiummember']->getState()}}</false>
+                                    </check>
+                                </td>
                             </tr>
                             <tr>
-                                <td>Seeking: {{ @$_SESSION['member']->getSeeking() }}</td>
+                                <td>Seeking:<check if=" {{ @$_SESSION['member'] }}">
+                                        <true>{{ @$_SESSION['member']->getSeeking() }}</true>
+                                        <false>{{ @$_SESSION['premiummember']->getSeeking()}}</false>
+                                    </check>
+                                </td>
                             </tr>
                             <tr>
-                                <td>Interests: <repeat group = "@$_SESSION['premiummember']->getInDoorInterests()" value="@indoor">{{@indoor}}</repeat>
-                                    <repeat group = "@$_SESSION['premiummember']->getOutDoorInterests()" value="@outdoor">{{@outdoor}}</repeat></td>
+                                <td>Interests:
+                                    <repeat group="@$_SESSION['premiummember']->getInDoorInterests()" value="@indoor">
+                                        {{@indoor}}
+                                    </repeat>
+                                    <repeat group="@$_SESSION['premiummember']->getOutDoorInterests()" value="@outdoor">
+                                        {{@outdoor}}
+                                    </repeat>
+                                </td>
                             </tr>
 
                         </table>
@@ -59,7 +101,11 @@
                         </figure>
                         <div>
                             <h3>Biography</h3>
-                            <p>{{@$_SESSION['member']->getBio()}}</p>
+                            <p><check if=" {{ @$_SESSION['member'] }}">
+                                    <true>{{ @$_SESSION['member']->getBio() }}</true>
+                                    <false>{{ @$_SESSION['premiummember']->getBio()}}</false>
+                                </check>
+                            </p>
                         </div>
 
 
