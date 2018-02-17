@@ -25,7 +25,7 @@ $f3->route('GET /', function () {
 //define route to personal information
 $f3->route('GET|POST /personalinformation', function ($f3) {
 
-    if (isset($_POST['submit'])) {
+    if (isset($_POST['submit'])) { // if form-submit,assign value to variable
 
         $gender = ($_POST['gender']);
         $firstName = ($_POST['firstName']);
@@ -34,8 +34,8 @@ $f3->route('GET|POST /personalinformation', function ($f3) {
         $phonenumber = ($_POST['phonenumber']);
         $premium = $_POST['premium'];
 
-        include('model/validatepersonal.php');
-
+        include('model/validatepersonal.php'); //validation
+          //set hive for form-value
         $f3->set('gender', $gender);
         $f3->set('firstName', $firstName);
         $f3->set('lastName', $lastName);
@@ -45,7 +45,7 @@ $f3->route('GET|POST /personalinformation', function ($f3) {
         $f3->set('errors', $errors);
         $f3->set('success', $success);
 
-        if (!isset($_POST['premium']) == $premium) {
+        if (!isset($_POST['premium']) == $premium) { // if premium not set =$member(object) generate else $premiummember
             $member = new Member($firstName, $lastName, $age, $gender, $phonenumber);
             $_SESSION['member'] = $member;
         } else {
@@ -54,7 +54,7 @@ $f3->route('GET|POST /personalinformation', function ($f3) {
             $_SESSION['premiummember'] = $premiummember;
         }
     }
-    if ($success) {
+    if ($success) {//if success  got to next page
         header("location: ./profile");
     }
     $template = new Template();
@@ -111,7 +111,7 @@ $f3->route('GET|POST /profile', function ($f3) {
         $_SESSION['premiummember'] = $premiummember;
     }
     if ($success) {
-        if (!empty($_SESSION['premium'])) {
+        if (!empty($_SESSION['premium'])) {// not empty premium value route to interest else go to summary page
             $f3->reroute("./interest");
         } else {
             $f3->reroute("./summary");
@@ -167,6 +167,7 @@ $f3->route('GET|POST /summary', function ($f3) {
 
     $member = $_SESSION['member'];
     $premiummember = $_SESSION['premiummember'];
+    $premium = $_SESSION['premium'];
 
     $template = new Template();
     echo $template->render('pages/summary.php');

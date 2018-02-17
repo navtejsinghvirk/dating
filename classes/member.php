@@ -1,5 +1,15 @@
 <?php
 
+
+/**
+
+ * The Member class represents a member account.
+ * The Member class represents a member with a
+ * name, age, gender and phone,email,state,seeking,bio
+ * User can create account with this class.
+ * @author Navtej Singh
+* @copyright 2018
+ */
 class Member
 {
    protected $fname;
@@ -13,8 +23,16 @@ class Member
    protected $bio;
 
 
-   function __construct($fname,$lname,$age,
-                          $gender,$phone)
+    /**
+     * Member constructor.
+     * @param $fname
+     * @param $lname
+     * @param $age
+     * @param $gender
+     * @param $phone
+     */
+    function __construct($fname, $lname, $age,
+                         $gender, $phone)
    {
      $this->fname = $fname;
      $this->lname = $lname;

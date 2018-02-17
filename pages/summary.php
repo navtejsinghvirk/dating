@@ -82,13 +82,19 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>Interests:
-                                    <repeat group="@$_SESSION['premiummember']->getInDoorInterests()" value="@indoor">
-                                        {{@indoor}}
-                                    </repeat>
-                                    <repeat group="@$_SESSION['premiummember']->getOutDoorInterests()" value="@outdoor">
-                                        {{@outdoor}}
-                                    </repeat>
+                                <td><check if=" {{ !empty(@$_SESSION['premium']) }}">
+                                        <true>Interests:
+                                            <repeat group="@$_SESSION['premiummember']->getInDoorInterests()" value="@indoor">
+                                                {{@indoor}}
+                                            </repeat>
+                                            <repeat group="@$_SESSION['premiummember']->getOutDoorInterests()" value="@outdoor">
+                                                {{@outdoor}}
+                                            </repeat>
+                                        </true>
+                                        <false>
+                                            <h4 class="text-danger">Please Sign up for more Summary</h4>
+                                        </false>
+                                    </check>
                                 </td>
                             </tr>
 
