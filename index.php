@@ -6,6 +6,8 @@ ini_set("display_errors", 1);
 
 //require the autolaod file
 require_once('vendor/autoload.php');
+require_once 'model/db-connection.php';
+
 
 //session start
 session_start();
@@ -35,7 +37,7 @@ $f3->route('GET|POST /personalinformation', function ($f3) {
         $premium = $_POST['premium'];
 
         include('model/validatepersonal.php'); //validation
-          //set hive for form-value
+        //set hive for form-value
         $f3->set('gender', $gender);
         $f3->set('firstName', $firstName);
         $f3->set('lastName', $lastName);
@@ -152,6 +154,7 @@ $f3->route('GET|POST /interest', function ($f3) {
 
         $_SESSION['premiummember'] = $premiummember;
         $_SESSION['member'] = $member;
+
     }
     if ($success) {
         header("location: ./summary");
@@ -169,8 +172,23 @@ $f3->route('GET|POST /summary', function ($f3) {
     $premiummember = $_SESSION['premiummember'];
     $premium = $_SESSION['premium'];
 
+
+    insertmember($premiummember->getFname(), $premiummember->getLname(),
+        $premiummember->getAge(), $premiummember->getGender(),
+        $premiummember->getPhone(), $premiummember->getEmail(),
+        $premiummember->getState(), $premiummember->getSeeking(),
+        $premiummember->getBio(), "$premium", getOutDoorInterests());
+
     $template = new Template();
     echo $template->render('pages/summary.php');
+});
+
+$f3->route('GET /admin',function ($f3){
+    $premiummember=$_SESSION['premiummember'];
+    $f3->set($premiummember,getMember());
+
+    $template= new Template();
+    echo $template->render('pages/admin.html');
 });
 
 //run fat free
