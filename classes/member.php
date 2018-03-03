@@ -2,25 +2,24 @@
 
 
 /**
-
  * The Member class represents a member account.
  * The Member class represents a member with a
  * name, age, gender and phone,email,state,seeking,bio
  * User can create account with this class.
  * @author Navtej Singh
-* @copyright 2018
+ * @copyright 2018
  */
 class Member
 {
-   protected $fname;
-   protected $lname;
-   protected $age;
-   protected $gender;
-   protected $phone;
-   protected $email;
-   protected $state;
-   protected $seeking;
-   protected $bio;
+    protected $fname;
+    protected $lname;
+    protected $age;
+    protected $gender;
+    protected $phone;
+    protected $email;
+    protected $state;
+    protected $seeking;
+    protected $bio;
 
 
     /**
@@ -33,14 +32,14 @@ class Member
      */
     function __construct($fname, $lname, $age,
                          $gender, $phone)
-   {
-     $this->fname = $fname;
-     $this->lname = $lname;
-     $this->age = $age;
-     $this->gender = $gender;
-     $this->phone = $phone;
+    {
+        $this->fname = $fname;
+        $this->lname = $lname;
+        $this->age = $age;
+        $this->gender = $gender;
+        $this->phone = $phone;
 
-   }
+    }
 
     /**
      * @return mixed
@@ -115,17 +114,22 @@ class Member
     }
 
     /**
-     * @param mixed $age
+     * @param mixed $age ,check numeric and greater 18
      */
     public function setAge($age)
     {
-        $this->age = $age;
+        if (is_numeric($age) && $age > 18) {
+            $this->age = $age;
+        } else {
+            $this->age = 0;
+        }
     }
 
     /**
      * @param mixed $bio
      */
-    public function setBio($bio)
+    public
+    function setBio($bio)
     {
         $this->bio = $bio;
     }
@@ -133,47 +137,66 @@ class Member
     /**
      * @param mixed $email
      */
-    public function setEmail($email)
+    public
+    function setEmail($email)
     {
         $this->email = $email;
     }
 
     /**
      * @param mixed $fname
+     * check alphabet else null
      */
-    public function setFname($fname)
+    public
+    function setFname($fname)
     {
-        $this->fname = $fname;
+        if (ctype_alpha($fname)) {
+            $this->fname = $fname;
+        } else {
+            $this->fname = null;
+        }
     }
 
     /**
      * @param mixed $gender
      */
-    public function setGender($gender)
+    public
+    function setGender($gender)
     {
         $this->gender = $gender;
     }
 
     /**
-     * @param mixed $lname
+     * @param mixed $lname,check alphabet
      */
-    public function setLname($lname)
+    public
+    function setLname($lname)
     {
-        $this->lname = $lname;
+        if (ctype_alpha($lname)) {
+            $this->fname = $lname;
+        } else {
+            $this->lname = null;
+        }
     }
 
     /**
-     * @param mixed $phone
+     * @param mixed $phone,check numeric
      */
-    public function setPhone($phone)
+    public
+    function setPhone($phone)
     {
+        if(is_numeric($phone)){
         $this->phone = $phone;
+    }else{
+        $this->phone=nulll;
+        }
     }
 
     /**
      * @param mixed $seeking
      */
-    public function setSeeking($seeking)
+    public
+    function setSeeking($seeking)
     {
         $this->seeking = $seeking;
     }
@@ -181,7 +204,8 @@ class Member
     /**
      * @param mixed $state
      */
-    public function setState($state)
+    public
+    function setState($state)
     {
         $this->state = $state;
     }
