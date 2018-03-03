@@ -4,16 +4,7 @@ ini_set("display_errors", 1);
 
 require_once '/home/nsinghvi/config.php';
 
-try {
-    //instance a database object
-    $dbh = new PDO(DB_DSN, DB_USERNAME,
-        DB_PASSWORD);
-    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    //echo "Connected  to databases";
-} catch (PDOException $e) {
-    echo $e->getMessage();
-}
-
+//Create Table (Query)
 /*CREATE TABLE Members (
 `firstName` VARCHAR(40) NOT NULL ,
 `lastName` VARCHAR(40) NOT NULL ,
@@ -30,54 +21,80 @@ try {
  PRIMARY KEY (`member_id`));
 */
 
-function insertmember($firstName, $lastName, $age, $gender, $phonenumber, $email,
-                      $state, $sgender, $biography, $premium, $interests)
+/**
+ * Class Dbconnection
+ */
+class Dbconnection
 {
-    global $dbh;
-    //define query
-    $sql = "INSERT INTO Members(`member_id`, `firstName`, `lastName`, `age`, `gender`, `phonenumber`, `email`, `state`, `sgender`,
+    function connect()  //connecting to database
+    {
+        try {
+            $dbcnn = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD);             //instance a database object
+            $dbcnn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            //echo "Connected  to databases";
+        } catch (PDOException $expect) {
+            echo $expect->getMessage();
+        }
+    }
+
+    /**
+     * @param $premiummember
+     */
+    function insertmember($premiummember)
+    {
+        global $dbcnn;
+
+        $sql = "INSERT INTO Members (`firstName`, `lastName`, `age`, `gender`, `phonenumber`, `email`, `state`, `sgender`,
                                       `biography`, `premium`, `interests`)
-                VALUES (NULL ,:firstName,:lastName,:age,:gender,:phonenumber,:email,:state,:sgender,:biography,:premium,:interests)";
-    //prepare
-    $statement = $dbh->prepare($sql);
-    //3. bind parameters
+                VALUES (:firstName,:lastName,:age,:gender,:phonenumber,:email,:state,:sgender,:biography,:premium,:interests)";
 
-    $statement->bindParam(':firstName', $firstName, PDO::PARAM_STR);
-    $statement->bindParam(':lastName', $lastName, PDO::PARAM_STR);
-    $statement->bindParam(':age', $age, PDO::PARAM_STR);
-    $statement->bindParam(':gender', $gender, PDO::PARAM_STR);
-    $statement->bindParam(':phonenumber', $phonenumber, PDO::PARAM_STR);
-    $statement->bindParam(':email', $email, PDO::PARAM_STR);
-    $statement->bindParam(':state', $state, PDO::PARAM_STR);
-    $statement->bindParam(':sgender', $sgender, PDO::PARAM_STR);
-    $statement->bindParam(':biography', $biography, PDO::PARAM_STR);
-    $statement->bindParam(':premium', $premium, PDO::PARAM_STR);
-    $statement->bindParam(':interests', $interests, PDO::PARAM_STR);
+        $statement = $dbcnn->prepare($sql);
 
+    $firstName = $premiummember->getFname();
+    $lastName = $premiummember->getLname();
+    $age = $premiummember->getAge();
+    $gender = $premiummember->getFname();
+    $phonenumber = $premiummember->getPhone();
+    $email = $premiummember->getEmail();
+    $state = $premiummember->getState();
+    $sgender = $premiummember->getSgender();
+    $biography = $premiummember->getBio();
+    $premium = $_SESSION['premium'];
+    $interests = implode(",", (array_merge($premiummember->getInDoorInterests(), $premiummember->getOutDoorInterests())));
 
-    //execute
-    $statement->execute();
+        $statement->bindParam(':firstName', $firstName, PDO::PARAM_STR);
+        $statement->bindParam(':lastName', $lastName, PDO::PARAM_STR);
+        $statement->bindParam(':age', $age, PDO::PARAM_STR);
+        $statement->bindParam(':gender', $gender, PDO::PARAM_STR);
+        $statement->bindParam(':phonenumber', $phonenumber, PDO::PARAM_STR);
+        $statement->bindParam(':email', $email, PDO::PARAM_STR);
+        $statement->bindParam(':state', $state, PDO::PARAM_STR);
+        $statement->bindParam(':sgender', $sgender, PDO::PARAM_STR);
+        $statement->bindParam(':biography', $biography, PDO::PARAM_STR);
+        $statement->bindParam(':premium', $premium, PDO::PARAM_STR);
+        $statement->bindParam(':interests', $interests, PDO::PARAM_STR);
 
+        $statement->execute();
+    }
+
+//    function getMember()
+//    {
+//        global $dbh;
+//
+//        // define the query
+//        $sql = "SELECT * FROM Members order by lastName";
+//
+//        // prepare the statement
+//        $statement = $dbh->prepare($sql);
+//
+//        // execute the statement
+//        $statement->execute();
+//
+//
+//        // return the result
+//        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+//
+//        return $result;
+//
+//    }
 }
-
-function getMember()
-{
-    global $dbh;
-
-    // define the query
-    $sql = "SELECT * FROM Members order by lastName";
-
-    // prepare the statement
-    $statement = $dbh->prepare($sql);
-
-    // execute the statement
-    $statement->execute();
-
-
-    // return the result
-    $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-    return $result;
-
-}
-

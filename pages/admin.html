@@ -29,16 +29,15 @@
     <repeat group="{{ @members }}" value="{{ @member }}">
 
         <tr>
+            <td>{{ @member['member_id'] }}</td>
+            <td>{{ @member['lastName']}}, {{ @member['fistName'] }}</td>
 
-            <td>{{ @premiummember['member_id'] }}</td>
-            <td>{{ @premiummember['lastName']}}, {{ @premiummember['fistName'] }}</td>
-
-            <td>{{ @premiummember['age'] }}</td>
-            <td>{{ @premiummember['phonenumber'] }}</td>
-            <td>{{ @premiummember['email'] }}</td>
-            <td>{{ @premiummember['state'] }}</td>
-            <td>{{ @premiummember['gender'] }}</td>
-            <td>{{ @premiummember['sgender'] }}</td>
+            <td>{{ @member['age'] }}</td>
+            <td>{{ @member['phonenumber'] }}</td>
+            <td>{{ @member['email'] }}</td>
+            <td>{{ @member['state'] }}</td>
+            <td>{{ @member['gender'] }}</td>
+            <td>{{ @member['sgender'] }}</td>
             <check if="{{ @premium['premium'] == 0 }}">
                 <true>
                     <td><input class="form-check-input" type="checkbox" value=""></td>
@@ -47,7 +46,7 @@
                     <td><input class="form-check-input" type="checkbox" value="" checked></td>
                 </false>
             </check>
-            <td>{{ @premiummember['interests'] }}</td>
+            <td>{{ @member['interests'] }}</td>
         </tr>
     </repeat>
 </table>

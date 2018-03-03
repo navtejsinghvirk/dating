@@ -9,12 +9,11 @@
     <link rel="stylesheet" type="text/css" href="/328/dating/styles/styles.css">
 </head>
 <body>
-<header>
-    <div class="container-fluid  "><!--container fluid,margin div start -->
-        <div class="bg-danger text-light rounded  m-2">
-            <h2 class="font-italic text-center">Sky Dating - Meet Love Of Your Life</h2>
-        </div>
-    </div><!--container fluid div end -->
+<header class="container-fluid m-2">
+    <nav class="navbar  bg-danger text-light">
+        <h5 class="font-italic ">Sky Dating - Meet Love Of Your Life</h5>
+        <ul class="navbar-nav "> <li class="nav-item"> <a class="nav-link text-light" href=" ./admin"><h5 >Admin</h5></a> </li> </ul>
+    </nav>
 </header>
 
 <main>
