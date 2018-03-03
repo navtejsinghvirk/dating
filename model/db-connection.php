@@ -50,17 +50,17 @@ class Dbconnection
 
         $statement = $dbcnn->prepare($sql);
 
-    $firstName = $premiummember->getFname();
-    $lastName = $premiummember->getLname();
-    $age = $premiummember->getAge();
-    $gender = $premiummember->getFname();
-    $phonenumber = $premiummember->getPhone();
-    $email = $premiummember->getEmail();
-    $state = $premiummember->getState();
-    $sgender = $premiummember->getSgender();
-    $biography = $premiummember->getBio();
-    $premium = $_SESSION['premium'];
-    $interests = implode(",", (array_merge($premiummember->getInDoorInterests(), $premiummember->getOutDoorInterests())));
+        $firstName = $premiummember->getFname();
+        $lastName = $premiummember->getLname();
+        $age = $premiummember->getAge();
+        $gender = $premiummember->getFname();
+        $phonenumber = $premiummember->getPhone();
+        $email = $premiummember->getEmail();
+        $state = $premiummember->getState();
+        $sgender = $premiummember->getSgender();
+        $biography = $premiummember->getBio();
+        $premium = $_SESSION['premium'];
+        $interests = implode(",", (array_merge($premiummember->getInDoorInterests(), $premiummember->getOutDoorInterests())));
 
         $statement->bindParam(':firstName', $firstName, PDO::PARAM_STR);
         $statement->bindParam(':lastName', $lastName, PDO::PARAM_STR);
@@ -77,24 +77,13 @@ class Dbconnection
         $statement->execute();
     }
 
-//    function getMember()
-//    {
-//        global $dbh;
-//
-//        // define the query
-//        $sql = "SELECT * FROM Members order by lastName";
-//
-//        // prepare the statement
-//        $statement = $dbh->prepare($sql);
-//
-//        // execute the statement
-//        $statement->execute();
-//
-//
-//        // return the result
-//        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
-//
-//        return $result;
-//
-//    }
+    function getMember()
+    {
+        global $dbhcnn;
+        $sql = "SELECT * FROM Members ORDER BY lastName";
+        $statement = $dbhcnn->prepare($sql);
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
 }
