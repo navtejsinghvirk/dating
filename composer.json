@@ -1,15 +1,18 @@
 {
-  "name":"navtej/328/dating",
-  "authors":[
+  "name": "navtej/328/dating",
+  "authors": [
     {
-      "name":"Navtej Singh",
-      "email":"nsingh20@mail.greenriver.edu"
+      "name": "Navtej Singh",
+      "email": "nsingh20@mail.greenriver.edu"
     }
   ],
-  "require":{
-    "bcosca/fatfree-core":"dev-master"
+  "require": {
+    "bcosca/fatfree-core": "dev-master"
   },
-  "autoload":{
-    "classmap":["classes/"]
+  "autoload": {
+    "classmap": [
+      "classes/",
+      "model/dbconnection.php"
+    ]
   }
 }
