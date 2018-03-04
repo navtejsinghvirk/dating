@@ -147,8 +147,7 @@ class Member
      * @param mixed $fname
      * check alphabet else null
      */
-    public
-    function setFname($fname)
+    public   function setFname($fname)
     {
         if (ctype_alpha($fname)) {
             $this->fname = $fname;

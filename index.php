@@ -3,7 +3,6 @@ error_reporting(E_ALL);
 ini_set("display_errors", 1);
 require_once('vendor/autoload.php');
 session_start();
-
 //create an instance of the base class
 $f3 = Base::instance();
 $dbconnection = new Dbconnection();
@@ -47,7 +46,8 @@ $f3->route('GET|POST /personalinformation', function ($f3) {
         $phonenumber = ($_POST['phonenumber']);
         $premium = $_POST['premium'];
 
-        include('model/validatepersonal.php'); //validation
+        include('model/validatepersonal.php');
+
         $f3->set('gender', $gender);
         $f3->set('firstName', $firstName);
         $f3->set('lastName', $lastName);
@@ -57,6 +57,7 @@ $f3->route('GET|POST /personalinformation', function ($f3) {
         $f3->set('errors', $errors);
         $f3->set('success', $success);
 
+
         if (!isset($_POST['premium']) == $premium) {
             $member = new Member($firstName, $lastName, $age, $gender, $phonenumber);
             $_SESSION['member'] = $member;
@@ -65,8 +66,7 @@ $f3->route('GET|POST /personalinformation', function ($f3) {
             $_SESSION['premium'] = $premium;
             $_SESSION['premiummember'] = $premiummember;
         }
-    }
-
+    };
     if ($success) {
         header("location: ./profile");
     }
@@ -157,15 +157,17 @@ $f3->route('GET|POST /summary', function ($f3) {
     $premiummember = $_SESSION['premiummember'];
     $premium = $_SESSION['premium'];
 
+    global $dbconnection;
+    $dbconnection->insertmember($premiummember);
+
     $template = new Template();
     echo $template->render('pages/summary.php');
 });
 
-$f3->route('GET /admin', function ($f3) {
-    global $db;
-    $members=$db->getMember();
+$f3->route('GET|POST  /admin', function ($f3) {
+    global $dbconnection;
+    $members = $dbconnection->getMember();
     $f3->set('members', $members);
-
     $template = new Template();
     echo $template->render('pages/admin.html');
 });
